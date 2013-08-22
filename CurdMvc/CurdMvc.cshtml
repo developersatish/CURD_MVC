@@ -1,0 +1,184 @@
+﻿@using System.Collections
+@using OnlyMvc.Infrastructure
+@model OnlyMvc.Models.NewUserModel
+
+@{
+    ViewBag.Title = "CurdMvc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ValidationSummary(true, "Plz fill the following")
+<table width="100%" border="1">
+    <tr>
+        <td valign="top">
+            @using (Html.BeginForm("CurdMvc", "CurdMvc", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <table class="table">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.FirstName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.FirstName)
+                            @Html.ValidationMessageFor(x => x.FirstName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.LastName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.LastName)
+                            @Html.ValidationMessageFor(x => x.LastName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.UserName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.UserName)
+                            @Html.ValidationMessageFor(x => x.UserName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.Email)
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.Email)
+                            @Html.ValidationMessageFor(x => x.Email)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.Password)
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.Password)
+                            @Html.ValidationMessageFor(x => x.Password)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.HomeCity)
+                        </td>
+                        <td>
+                            @*@Html.DropDownList("HomeCity",data,new {@style="width:155px;",@class="form-control"})*@
+                            @*@Html.DropDownList("HomeCity", ViewBag.City as SelectList, "--select--");*@
+@*
+                            @Html.DropDownList("HomeCity", new SelectList(ViewBag.BindCity, "Value", "Text", "2"), new { @style = "width:155px;", @class = "form-control" })
+*@
+                        
+                        @Html.DropDownList("HomeCity",null,new { @style = "width:155px;", @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    @if (Model.IsEdit)
+                    {
+                        <tr>
+                            <td>
+                                @Html.LabelFor(x => x.ImageName)
+                            </td>
+                            <td>
+                                <img src="@Model.ImageName" style="width: 50px; height: 50px"/>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td>
+                            @Html.LabelFor(x => x.ImageName)
+                        </td>
+                        <td>
+                            <input type="file" id="ImageName" name="ImageName" />
+                            @Html.ValidationMessageFor(x => x.ImageName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+
+                            <input type="submit" value="Submit" id="Index" class="btn" />
+                        </td>
+                    </tr>
+                </table>
+            }
+        </td>
+        <td valign="top">
+            <table class="table table-striped">
+                <tr>
+                    <td>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(x => x.ImageName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(x => x.FirstName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(x => x.LastName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(x => x.UserName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(x => x.Email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(x => x.HomeCity)
+                                    </th>
+                                    <th>Action
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="dataDiv" style="position: relative; height: 300px">
+                            <table class="table table-striped" id="ListGrid" style="position: relative;">
+
+                                <tbody id="tbodyData" style="position: relative">
+                                    @foreach (var val in Model.NewUserModels)
+                                    {
+                    
+                                        <tr>
+                                            <td>
+                                                <img src="@val.ImageName" width="50px" height="50px"/>
+                                            </td>
+                                            <td>@Html.DisplayTextFor(x => val.FirstName)</td>
+                                            <td>@Html.DisplayTextFor(x => val.LastName)</td>
+                                            <td>@Html.DisplayTextFor(x => val.UserName)</td>
+                                            <td>@Html.DisplayTextFor(x => val.Email)</td>
+                                            <td>@Html.DisplayTextFor(x => val.HomeCity)</td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "CurdMvc", new { id = val.ID })
+                                                | @Html.ActionLink("Delete", "Delete", new { id = val.ID })
+                                            </td>
+                                        </tr>  
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+
+
+@section script
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#dataDiv').niceScroll();
+        });
+    </script>
+}
